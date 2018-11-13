@@ -1,4 +1,6 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Meal Calculator
+
+App to track your daily nutrition, in the first form you enter what is your goal of daily kcal , proteins etc. Next form is for input your breakfest , dinner etc. On the right you will have all your meals , organized by date. You can click on that card and check what you eaten that day, check nutrition etc. Enjoy.
 
 ## Available Scripts
 
