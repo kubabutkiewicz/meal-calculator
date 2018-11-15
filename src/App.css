@@ -1,0 +1,20 @@
+html {
+  font-size: 62.5%;
+  font-family: "Roboto";
+}
+body {
+  margin: 0;
+  padding: 0;
+}
+.App {
+  height: 100vh;
+  position: relative;
+}
+.display-column {
+  display: flex;
+  flex-direction: column;
+}
+.center {
+  justify-content: center;
+  align-items: center;
+}
