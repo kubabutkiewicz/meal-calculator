@@ -5,22 +5,19 @@ html {
 body {
   margin: 0;
   padding: 0;
+  font-family: "Montserrat";
+}
+*,
+*:before,
+*:after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 .App {
   height: 100vh;
+  width: 100%;
   position: relative;
-}
-.flex {
-  display: flex;
-}
-.center {
-  justify-content: center;
-  align-items: center;
-}
-.login-form {
-  width: 30vw;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 }

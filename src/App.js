@@ -16,6 +16,7 @@ class App extends Component {
     return (
       <div className="App">
         <Today todayDate={this.state.today} />
+        <h1>Hello from app component</h1>
       </div>
     );
   }

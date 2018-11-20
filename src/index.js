@@ -11,7 +11,7 @@ const Root = () => {
   return (
     <BrowserRouter>
       <>
-        <Route path="/" component={LoginForm} />
+        <Route path="/" exact component={LoginForm} />
         <Route path="/tracker/:trackerId" component={App} />
       </>
     </BrowserRouter>
