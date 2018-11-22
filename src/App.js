@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import Today from "./components/Today";
+import Navbar from "./components/Navbar";
+import DailyNutritionForm from "./components/form/DailyNutritionForm";
 
 class App extends Component {
   constructor() {
@@ -15,8 +16,8 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Today todayDate={this.state.today} />
-        <h1>Hello from app component</h1>
+        <Navbar todayDate={this.state.today} />
+        <DailyNutritionForm />
       </div>
     );
   }

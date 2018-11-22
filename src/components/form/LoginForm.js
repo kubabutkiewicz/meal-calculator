@@ -52,7 +52,7 @@ class LoginForm extends Component {
     const ButtonStyled = styled.button`
       width: 10rem;
       height: 4.2rem;
-      padding: 1rem 2rem;
+      padding: 1rem;
       margin: 0 auto;
       background-color: #e53935;
       color: white;
@@ -61,6 +61,9 @@ class LoginForm extends Component {
       font-size: 1.5rem;
       position: relative;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       :focus {
         outline: none;
       }
@@ -92,7 +95,9 @@ class LoginForm extends Component {
                 ref={input => (this.nickname = input)}
               />
             </FormControlStyle>
-            <ButtonStyled type="submit">Next</ButtonStyled>
+            <ButtonStyled type="submit">
+              Next <i className="fas fa-angle-double-right" />
+            </ButtonStyled>
           </FormStyled>
         )}
       />
