@@ -2,16 +2,8 @@ import React, { Component } from "react";
 import styled from "styled-components";
 
 class DailyNutritionForm extends Component {
-  mealSearch = e => {
-    e.preventDefault();
-    const searchedMeal = this.mealSearched.value;
-    fetch(
-      `https://api.edamam.com/api/food-database/parser?nutrition-type=logging&ingr=${searchedMeal}&app_id=${
-        process.env.REACT_APP_ID
-      }&app_key=${process.env.REACT_APP_KEY}`
-    )
-      .then(data => data.json())
-      .then(response => console.log(response));
+  onChangeInput = e => {
+    this.props.onInputSubmit(this.mealSearched.value, e);
   };
   render() {
     const FormStyled = styled.form`
@@ -80,7 +72,7 @@ class DailyNutritionForm extends Component {
       }
     `;
     return (
-      <FormStyled onSubmit={e => this.mealSearch(e)}>
+      <FormStyled onSubmit={this.onChangeInput}>
         <FormControlStyled>
           <LabelStyled htmlFor="meal">Meal</LabelStyled>
           <InputStyled
