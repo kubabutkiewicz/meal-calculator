@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Navbar from "./components/Navbar";
 import DailyNutritionForm from "./components/form/DailyNutritionForm";
+import FoodList from "./components/FoodList";
 
 class App extends Component {
   constructor() {
@@ -11,7 +12,7 @@ class App extends Component {
     const yyyy = date.getFullYear();
     this.state = {
       today: `${dd}-${mm}-${yyyy}`,
-      searchedFood: {},
+      searchedFood: [],
       kcal: 0,
       proteins: 0,
       fat: 0,
@@ -26,20 +27,7 @@ class App extends Component {
     )
       .then(data => data.json())
       .then(response => {
-        this.setState({ searchedFood: response.hints[0].food });
-        this.setState({
-          kcal: this.state.kcal + this.state.searchedFood.nutrients.ENERC_KCAL
-        });
-        this.setState({
-          fat: this.state.fat + this.state.searchedFood.nutrients.FAT
-        });
-        this.setState({
-          proteins:
-            this.state.proteins + this.state.searchedFood.nutrients.PROCNT
-        });
-        this.setState({
-          carbo: this.state.carbo + this.state.searchedFood.nutrients.CHOCDF
-        });
+        this.setState({ searchedFood: [...response.hints] });
       });
   };
 
@@ -53,7 +41,9 @@ class App extends Component {
           fat={this.state.fat}
           carbo={this.state.carbo}
         />
+
         <DailyNutritionForm onInputSubmit={this.handleSubmitInput} />
+        <FoodList list={this.state.searchedFood} />
       </div>
     );
   }
