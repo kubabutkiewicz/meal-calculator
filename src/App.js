@@ -28,7 +28,17 @@ class App extends Component {
       .then(data => data.json())
       .then(response => {
         this.setState({ searchedFood: [...response.hints] });
+        console.log(response.hints);
       });
+  };
+
+  addNutriments = (kcal, proteins, fat, carbo) => {
+    this.setState({
+      kcal: this.state.kcal + kcal,
+      proteins: this.state.proteins + proteins,
+      fat: this.state.fat + fat,
+      carbo: this.state.carbo + carbo
+    });
   };
 
   render() {
@@ -43,7 +53,10 @@ class App extends Component {
         />
 
         <DailyNutritionForm onInputSubmit={this.handleSubmitInput} />
-        <FoodList list={this.state.searchedFood} />
+        <FoodList
+          list={this.state.searchedFood}
+          addNutriments={this.addNutriments}
+        />
       </div>
     );
   }
