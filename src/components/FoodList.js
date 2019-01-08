@@ -4,10 +4,10 @@ import FoodItem from "./FoodItem";
 class FoodList extends Component {
   render() {
     const List = styled.ul`
-      position: absolute;
-
-      background-color: #f2eff2;
       list-style: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-gap: 2rem;
     `;
     const { list } = this.props;
     return (

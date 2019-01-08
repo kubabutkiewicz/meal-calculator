@@ -1,8 +1,17 @@
 import React, { Component } from "react";
+import styled from "styled-components";
 import Navbar from "./components/Navbar";
 import DailyNutritionForm from "./components/form/DailyNutritionForm";
 import FoodList from "./components/FoodList";
 
+const Wrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;
 class App extends Component {
   constructor() {
     super();
@@ -51,12 +60,13 @@ class App extends Component {
           fat={this.state.fat}
           carbo={this.state.carbo}
         />
-
-        <DailyNutritionForm onInputSubmit={this.handleSubmitInput} />
-        <FoodList
-          list={this.state.searchedFood}
-          addNutriments={this.addNutriments}
-        />
+        <Wrapper>
+          <DailyNutritionForm onInputSubmit={this.handleSubmitInput} />
+          <FoodList
+            list={this.state.searchedFood}
+            addNutriments={this.addNutriments}
+          />
+        </Wrapper>
       </div>
     );
   }

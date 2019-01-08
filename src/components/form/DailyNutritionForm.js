@@ -9,12 +9,11 @@ class DailyNutritionForm extends Component {
     const FormStyled = styled.form`
       display: flex;
       flex-direction: column;
-      position: absolute;
-      top: 30%;
+
       background-color: #f2eff2;
       padding: 3rem 5rem;
       margin-left: 2rem;
-      width: 20vw;
+      width: 50vh;
     `;
     const FormControlStyled = styled.div`
       display: flex;
