@@ -18,6 +18,7 @@ class FoodList extends Component {
               key={item.food.foodId}
               obj={item.food}
               addNutriments={this.props.addNutriments}
+              addMealToArray={this.props.addMealToArray}
             />
           );
         })}

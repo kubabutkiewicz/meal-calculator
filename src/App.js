@@ -25,8 +25,26 @@ class App extends Component {
       kcal: 0,
       proteins: 0,
       fat: 0,
-      carbo: 0
+      carbo: 0,
+      days: []
     };
+  }
+  componentDidMount() {
+    let isDuplicate = false;
+    this.state.days.forEach(day => {
+      if (day.date === this.state.today) {
+        isDuplicate = true;
+      }
+    });
+    if (!isDuplicate) {
+      const day = {
+        date: this.state.today,
+        meals: []
+      };
+      let days = [...this.state.days];
+      days.push(day);
+      this.setState({ days });
+    }
   }
   handleSubmitInput = (input, e) => {
     e.preventDefault();
@@ -37,10 +55,14 @@ class App extends Component {
       .then(data => data.json())
       .then(response => {
         this.setState({ searchedFood: [...response.hints] });
-        console.log(response.hints);
       });
   };
 
+  addMealToArray = meal => {
+    let days = [...this.state.days];
+    const today = days.find(day => day.date === this.state.today);
+    today.meals.push(meal);
+  };
   addNutriments = (kcal, proteins, fat, carbo) => {
     this.setState({
       kcal: this.state.kcal + kcal,
@@ -65,6 +87,7 @@ class App extends Component {
           <FoodList
             list={this.state.searchedFood}
             addNutriments={this.addNutriments}
+            addMealToArray={this.addMealToArray}
           />
         </Wrapper>
       </div>

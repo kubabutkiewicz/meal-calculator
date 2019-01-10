@@ -16,7 +16,7 @@ const checkIfNan = num => {
   }
   return num;
 };
-const FoodItem = ({ obj, addNutriments }) => {
+const FoodItem = ({ obj, addNutriments, addMealToArray }) => {
   const handleClick = () => {
     addNutriments(
       checkIfNan(obj.nutrients.ENERC_KCAL),
@@ -24,6 +24,7 @@ const FoodItem = ({ obj, addNutriments }) => {
       checkIfNan(obj.nutrients.FAT),
       checkIfNan(obj.nutrients.CHOCDF)
     );
+    addMealToArray(obj);
   };
   return (
     <Item>
