@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import DailyNutritionForm from "./components/form/DailyNutritionForm";
 import FoodList from "./components/FoodList";
 import { PulseLoader } from "react-spinners";
+import { checkIfNan } from "./helpers/helpers";
 const Wrapper = styled.div`
   width: 100%;
   display: flex;
@@ -32,11 +33,24 @@ class App extends Component {
   }
   componentDidMount() {
     const storage = JSON.parse(localStorage.getItem("mealsInDays"));
-    console.log(storage);
     let days = [...this.state.days];
+    let kcal = 0;
+    let fat = 0;
+    let proteins = 0;
+    let carbo = 0;
     days.push(...storage);
+    days.forEach(day => {
+      day.meals.forEach(meal => {
+        kcal += checkIfNan(meal.nutrients.ENERC_KCAL);
+        fat += checkIfNan(meal.nutrients.FAT);
+        proteins += checkIfNan(meal.nutrients.PROCNT);
+        carbo += checkIfNan(meal.nutrients.CHOCDF);
+      });
+      this.setState({ kcal, fat, proteins, carbo });
+    });
     this.setState({ days });
   }
+
   handleSubmitInput = (input, e) => {
     e.preventDefault();
     const searchedMeal = input;

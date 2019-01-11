@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-
+import { checkIfNan } from "../helpers/helpers";
 const Item = styled.li`
   margin: 2rem;
   background-color: #f2eff2;
@@ -8,14 +8,6 @@ const Item = styled.li`
   min-width: 33%;
 `;
 
-const checkIfNan = num => {
-  if (isNaN(num)) {
-    num = 0;
-  } else {
-    num = Math.round(num * 100) / 100;
-  }
-  return num;
-};
 const FoodItem = ({ obj, addNutriments, addMealToArray }) => {
   const handleClick = () => {
     addNutriments(
