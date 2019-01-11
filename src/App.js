@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Navbar from "./components/Navbar";
 import DailyNutritionForm from "./components/form/DailyNutritionForm";
 import FoodList from "./components/FoodList";
-
+import { PulseLoader } from "react-spinners";
 const Wrapper = styled.div`
   width: 100%;
   display: flex;
@@ -21,6 +21,7 @@ class App extends Component {
     const yyyy = date.getFullYear();
     this.state = {
       today: `${dd}-${mm}-${yyyy}`,
+      loading: false,
       searchedFood: [],
       kcal: 0,
       proteins: 0,
@@ -30,38 +31,33 @@ class App extends Component {
     };
   }
   componentDidMount() {
-    let isDuplicate = false;
-    this.state.days.forEach(day => {
-      if (day.date === this.state.today) {
-        isDuplicate = true;
-      }
-    });
-    if (!isDuplicate) {
-      const day = {
-        date: this.state.today,
-        meals: []
-      };
-      let days = [...this.state.days];
-      days.push(day);
-      this.setState({ days });
-    }
+    const storage = JSON.parse(localStorage.getItem("mealsInDays"));
+    console.log(storage);
+    let days = [...this.state.days];
+    days.push(...storage);
+    this.setState({ days });
   }
   handleSubmitInput = (input, e) => {
     e.preventDefault();
     const searchedMeal = input;
+    this.setState({ loading: true });
     fetch(
       `https://api.edamam.com/api/food-database/parser?nutrition-type=logging&ingr=${searchedMeal}&app_id=fae82e2e&app_key=5928a956a8a6a6f9262faa41de98b3f4`
     )
       .then(data => data.json())
       .then(response => {
         this.setState({ searchedFood: [...response.hints] });
+        this.setState({ loading: false });
       });
   };
-
+  addToLocalStorage = data => {
+    localStorage.setItem("mealsInDays", JSON.stringify(data));
+  };
   addMealToArray = meal => {
     let days = [...this.state.days];
     const today = days.find(day => day.date === this.state.today);
     today.meals.push(meal);
+    this.addToLocalStorage(this.state.days);
   };
   addNutriments = (kcal, proteins, fat, carbo) => {
     this.setState({
@@ -84,11 +80,20 @@ class App extends Component {
         />
         <Wrapper>
           <DailyNutritionForm onInputSubmit={this.handleSubmitInput} />
-          <FoodList
-            list={this.state.searchedFood}
-            addNutriments={this.addNutriments}
-            addMealToArray={this.addMealToArray}
-          />
+          {this.state.loading ? (
+            <PulseLoader
+              sizeUnit={"px"}
+              size={50}
+              color={"#f2eff2"}
+              loading={this.state.loading}
+            />
+          ) : (
+            <FoodList
+              list={this.state.searchedFood}
+              addNutriments={this.addNutriments}
+              addMealToArray={this.addMealToArray}
+            />
+          )}
         </Wrapper>
       </div>
     );
