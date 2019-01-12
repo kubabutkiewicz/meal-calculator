@@ -1,18 +1,41 @@
 import React, { Component } from "react";
-import styled from "styled-components";
+import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
 import Navbar from "./components/Navbar";
 import DailyNutritionForm from "./components/form/DailyNutritionForm";
 import FoodList from "./components/FoodList";
 import { PulseLoader } from "react-spinners";
 import { checkIfNan } from "./helpers/helpers";
+import { theme } from "./helpers/theme";
+const GlobalStyle = createGlobalStyle`
+  html {
+    font-size: 62.5%;
+  }
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: "Montserrat";
+    background-color: ${({ theme }) => theme.colors.dark};
+    color: ${({ theme }) => theme.colors.dark};
+  }
+  *, *::after, *::before {
+    box-sizing: border-box;
+  }
+
+  `;
 const Wrapper = styled.div`
-  width: 100%;
   display: flex;
   flex-direction: column;
-  flex: 1;
   justify-content: center;
   align-items: center;
 `;
+const Loader = styled(PulseLoader)`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin-top: 2rem;
+`;
+
 class App extends Component {
   constructor() {
     super();
@@ -39,16 +62,18 @@ class App extends Component {
     let proteins = 0;
     let carbo = 0;
     days.push(...storage);
-    days.forEach(day => {
-      day.meals.forEach(meal => {
+    const today = days.find(day => day.date === this.state.today);
+    if (!today) {
+      days.push({ date: this.state.today, meals: [] });
+    } else {
+      today.meals.forEach(meal => {
         kcal += checkIfNan(meal.nutrients.ENERC_KCAL);
         fat += checkIfNan(meal.nutrients.FAT);
         proteins += checkIfNan(meal.nutrients.PROCNT);
         carbo += checkIfNan(meal.nutrients.CHOCDF);
       });
-      this.setState({ kcal, fat, proteins, carbo });
-    });
-    this.setState({ days });
+    }
+    this.setState({ days, kcal, fat, proteins, carbo });
   }
 
   handleSubmitInput = (input, e) => {
@@ -84,32 +109,38 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <Navbar
-          todayDate={this.state.today}
-          kcal={this.state.kcal}
-          proteins={this.state.proteins}
-          fat={this.state.fat}
-          carbo={this.state.carbo}
-        />
-        <Wrapper>
-          <DailyNutritionForm onInputSubmit={this.handleSubmitInput} />
-          {this.state.loading ? (
-            <PulseLoader
-              sizeUnit={"px"}
-              size={50}
-              color={"#f2eff2"}
-              loading={this.state.loading}
+      <ThemeProvider theme={theme}>
+        <>
+          <GlobalStyle />
+          <Navbar
+            todayDate={this.state.today}
+            kcal={this.state.kcal}
+            proteins={this.state.proteins}
+            fat={this.state.fat}
+            carbo={this.state.carbo}
+          />
+          <Wrapper>
+            <DailyNutritionForm
+              onInputSubmit={this.handleSubmitInput}
+              listLength={this.state.searchedFood.length}
             />
-          ) : (
-            <FoodList
-              list={this.state.searchedFood}
-              addNutriments={this.addNutriments}
-              addMealToArray={this.addMealToArray}
-            />
-          )}
-        </Wrapper>
-      </div>
+            {this.state.loading ? (
+              <Loader
+                sizeUnit={"px"}
+                size={30}
+                color={"#f2eff2"}
+                loading={this.state.loading}
+              />
+            ) : (
+              <FoodList
+                list={this.state.searchedFood}
+                addNutriments={this.addNutriments}
+                addMealToArray={this.addMealToArray}
+              />
+            )}
+          </Wrapper>
+        </>
+      </ThemeProvider>
     );
   }
 }

@@ -5,16 +5,12 @@ import { Route } from "react-router";
 import App from "./App";
 import ViewMeals from "./components/ViewMeals";
 import * as serviceWorker from "./serviceWorker";
-import LoginForm from "./components/form/LoginForm";
-import "./App.css";
-
 const Root = () => {
   return (
     <BrowserRouter>
       <>
-        <Route path="/" exact component={LoginForm} />
-        <Route path="/tracker/:trackerId" component={App} />
-        <Route path="/tracker/view" component={ViewMeals} />
+        <Route exact path="" component={App} />
+        <Route path="/view-meals" component={ViewMeals} />
       </>
     </BrowserRouter>
   );
