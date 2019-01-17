@@ -1,12 +1,14 @@
 import React from "react";
+import styled from "styled-components";
+const Date = styled.h4`
+  color: ${({ theme }) => theme.colors.dark};
+  font-size: 2rem;
+  margin: 0;
+  margin-left: 3.5rem;
+`;
 
 const Today = ({ todayDate }) => {
-  const dateText = {
-    fontSize: "2rem",
-    margin: "0",
-    color: "#787b7a"
-  };
-  return <h4 style={dateText}>Date: {todayDate}</h4>;
+  return <Date>Date: {todayDate}</Date>;
 };
 
 export default Today;
