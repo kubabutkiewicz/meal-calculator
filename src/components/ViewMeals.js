@@ -5,7 +5,7 @@ class ViewMeals extends Component {
 
     return (
       <div>
-        <h1>Meal Calendar</h1>
+        <h1>Test</h1>
         <ul>
           {days.map(day => (
             <li>{day.date}</li>
