@@ -118,6 +118,7 @@ class App extends Component {
             proteins={this.state.proteins}
             fat={this.state.fat}
             carbo={this.state.carbo}
+            days={this.state.days}
           />
           <Wrapper>
             <DailyNutritionForm

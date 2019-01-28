@@ -9,7 +9,7 @@ const Root = () => {
   return (
     <BrowserRouter>
       <>
-        <Route exact path="" component={App} />
+        <Route exact path="/" component={App} />
         <Route path="/view-meals" component={ViewMeals} />
       </>
     </BrowserRouter>

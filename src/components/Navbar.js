@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import Today from "./Today";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import ViewMeals from "./ViewMeals";
 class Navbar extends Component {
   render() {
     const NavbarStyle = styled.nav`
@@ -19,7 +18,7 @@ class Navbar extends Component {
       justify-content: space-around;
       color: ${({ theme }) => theme.colors.dark};
     `;
-    const ButtonStyled = styled.button`
+    const ButtonStyled = styled(Link)`
       margin-right: 3.5rem;
       background-color: ${({ theme }) => theme.colors.light};
       padding: 1.8rem 7.5rem;
@@ -50,7 +49,14 @@ class Navbar extends Component {
             Carbo: {Math.round(this.props.carbo * 100) / 100} g
           </Nutriment>
         </NutrimentsStyle>
-        <ButtonStyled as={Link} to={ViewMeals}>
+        <ButtonStyled
+          to={{
+            pathname: "/view-meals",
+            state: {
+              days: [...this.props.days]
+            }
+          }}
+        >
           Go to List
         </ButtonStyled>
       </NavbarStyle>
