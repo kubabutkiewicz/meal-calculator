@@ -54,14 +54,16 @@ class App extends Component {
       days: []
     };
   }
-  componentDidMount() {
+  componentWillMount() {
     const storage = JSON.parse(localStorage.getItem("mealsInDays"));
     let days = [...this.state.days];
     let kcal = 0;
     let fat = 0;
     let proteins = 0;
     let carbo = 0;
+    if(storage) {
     days.push(...storage);
+    }
     const today = days.find(day => day.date === this.state.today);
     if (!today) {
       days.push({ date: this.state.today, meals: [] });
@@ -74,6 +76,7 @@ class App extends Component {
       });
     }
     this.setState({ days, kcal, fat, proteins, carbo });
+  
   }
 
   handleSubmitInput = (input, e) => {

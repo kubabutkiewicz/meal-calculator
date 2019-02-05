@@ -46,6 +46,7 @@ const MealsListItem = styled.li`
   justify-content: space-between;
   width: 70%;
   margin: 0 auto;
+  height: ${({open}) => open ? "auto" : 0};
 `;
 const dayNutriments = meals => {
   let kcal = 0;
@@ -66,8 +67,7 @@ const dayNutriments = meals => {
   };
 };
 
-const DayMeals = ({ dayData }) => {
-  console.log(dayData.meals);
+const DayMeals = ({ dayData , isOpen, openListItem}) => {
   return (
     <ItemStyled>
       <Wrapper>
@@ -84,7 +84,9 @@ const DayMeals = ({ dayData }) => {
             carbo: {dayNutriments(dayData.meals).carbo}
           </NutrimentText>
         </NutrimentsWrapper>
-        <ButtonStyled>
+        <ButtonStyled onClick={() => {
+          openListItem(dayData.date)
+        }}>
           Details
           <i className="fas fa-angle-down" />
         </ButtonStyled>
@@ -92,7 +94,7 @@ const DayMeals = ({ dayData }) => {
       <MealsList>
         {dayData.meals.map(meal => {
           return (
-            <MealsListItem key={meal.id}>
+            <MealsListItem open={isOpen} key={meal.id}>
               <p>Meal{meal.label}</p>
               <p>kcal: {checkIfNan(meal.nutrients.ENERC_KCAL)}</p>
               <p>proteins: {checkIfNan(meal.nutrients.PROCNT)}</p>

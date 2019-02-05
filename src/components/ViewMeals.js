@@ -32,6 +32,12 @@ const GlobalStyle = createGlobalStyle`
   `;
 
 class ViewMeals extends Component {
+  state = {
+    isOpen : false
+  }
+  openListIten = (date) => {
+    this.setState({isOpen: !this.state.isOpen});
+  }
   render() {
     const days = this.props.location.state.days;
     return (
@@ -42,7 +48,7 @@ class ViewMeals extends Component {
             <Title>Nutrition Calendar</Title>
             <DaysMealList>
               {days.map(day => (
-                <DayMeals key={day.date} dayData={day} />
+                <DayMeals key={day.date} dayData={day} isOpen={this.state.isOpen} openListItem={this.openListIten}/>
               ))}
             </DaysMealList>
           </div>
