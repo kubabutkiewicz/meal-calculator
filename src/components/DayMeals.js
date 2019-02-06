@@ -1,6 +1,8 @@
 import React from "react";
 import { checkIfNan } from "../helpers/helpers";
 import styled from "styled-components";
+import MealsList from "./MealsList";
+
 const ItemStyled = styled.li`
   width: 100%;
   background-color: ${({ theme }) => theme.colors.white};
@@ -38,72 +40,67 @@ const ButtonStyled = styled.button`
   cursor: pointer;
   border-radius: 0.5rem;
 `;
-const MealsList = styled.ul`
-  display: block;
-`;
-const MealsListItem = styled.li`
-  display: flex;
-  justify-content: space-between;
-  width: 70%;
-  margin: 0 auto;
-`;
-const dayNutriments = meals => {
-  let kcal = 0;
-  let proteins = 0;
-  let fat = 0;
-  let carbo = 0;
-  meals.forEach(meal => {
-    kcal += checkIfNan(meal.nutrients.ENERC_KCAL);
-    proteins += checkIfNan(meal.nutrients.PROCNT);
-    fat += checkIfNan(meal.nutrients.FAT);
-    carbo += checkIfNan(meal.nutrients.CHOCDF);
-  });
-  return {
-    kcal,
-    proteins,
-    fat,
-    carbo
-  };
-};
 
-const DayMeals = ({ dayData }) => {
-  console.log(dayData.meals);
-  return (
-    <ItemStyled>
-      <Wrapper>
-        <h3>Date: {dayData.date}</h3>
-        <NutrimentsWrapper>
-          <NutrimentText>
-            kcal: {dayNutriments(dayData.meals).kcal}{" "}
-          </NutrimentText>
-          <NutrimentText>
-            proteins: {dayNutriments(dayData.meals).proteins}{" "}
-          </NutrimentText>
-          <NutrimentText>fat: {dayNutriments(dayData.meals).fat}</NutrimentText>
-          <NutrimentText>
-            carbo: {dayNutriments(dayData.meals).carbo}
-          </NutrimentText>
-        </NutrimentsWrapper>
-        <ButtonStyled>
-          Details
-          <i className="fas fa-angle-down" />
-        </ButtonStyled>
-      </Wrapper>
-      <MealsList>
-        {dayData.meals.map(meal => {
-          return (
-            <MealsListItem key={meal.id}>
-              <p>Meal{meal.label}</p>
-              <p>kcal: {checkIfNan(meal.nutrients.ENERC_KCAL)}</p>
-              <p>proteins: {checkIfNan(meal.nutrients.PROCNT)}</p>
-              <p>fat: {checkIfNan(meal.nutrients.FAT)}</p>
-              <p>carbo: {checkIfNan(meal.nutrients.CHOCDF)}</p>
-            </MealsListItem>
-          );
-        })}
-      </MealsList>
-    </ItemStyled>
-  );
-};
+class DayMeals extends React.Component {
+  state = {
+    clickedDay: null
+  };
+  dayNutriments = meals => {
+    let kcal = 0;
+    let proteins = 0;
+    let fat = 0;
+    let carbo = 0;
+    meals.forEach(meal => {
+      kcal += checkIfNan(meal.nutrients.ENERC_KCAL);
+      proteins += checkIfNan(meal.nutrients.PROCNT);
+      fat += checkIfNan(meal.nutrients.FAT);
+      carbo += checkIfNan(meal.nutrients.CHOCDF);
+    });
+    return {
+      kcal,
+      proteins,
+      fat,
+      carbo
+    };
+  };
+  showDetails = e => {
+    if (this.state.clickedDay === e.target.parentNode.children[0].textContent) {
+      this.setState({ clickedDay: null });
+    } else {
+      this.setState({
+        clickedDay: e.target.parentNode.children[0].textContent
+      });
+    }
+  };
+  render() {
+    const { dayData } = this.props;
+    return (
+      <ItemStyled>
+        <Wrapper>
+          <h3>{dayData.date}</h3>
+          <NutrimentsWrapper>
+            <NutrimentText>
+              kcal: {this.dayNutriments(dayData.meals).kcal}{" "}
+            </NutrimentText>
+            <NutrimentText>
+              proteins: {this.dayNutriments(dayData.meals).proteins}{" "}
+            </NutrimentText>
+            <NutrimentText>
+              fat: {this.dayNutriments(dayData.meals).fat}
+            </NutrimentText>
+            <NutrimentText>
+              carbo: {this.dayNutriments(dayData.meals).carbo}
+            </NutrimentText>
+          </NutrimentsWrapper>
+          <ButtonStyled onClick={this.showDetails}>
+            Details
+            <i className="fas fa-angle-down" />
+          </ButtonStyled>
+        </Wrapper>
+        <MealsList data={dayData} clickedDay={this.state.clickedDay} />
+      </ItemStyled>
+    );
+  }
+}
 
 export default DayMeals;
