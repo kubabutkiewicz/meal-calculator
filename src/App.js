@@ -61,8 +61,10 @@ class App extends Component {
     let fat = 0;
     let proteins = 0;
     let carbo = 0;
-    if (storage) {
-      days.push(...storage);
+
+    if(storage) {
+    days.push(...storage);
+
     }
     const today = days.find(day => day.date === this.state.today);
     if (!today) {
@@ -76,6 +78,7 @@ class App extends Component {
       });
     }
     this.setState({ days, kcal, fat, proteins, carbo });
+  
   }
 
   handleSubmitInput = (input, e) => {

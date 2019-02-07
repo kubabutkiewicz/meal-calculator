@@ -41,6 +41,7 @@ const ButtonStyled = styled.button`
   border-radius: 0.5rem;
 `;
 
+
 class DayMeals extends React.Component {
   state = {
     clickedDay: null
@@ -102,5 +103,6 @@ class DayMeals extends React.Component {
     );
   }
 }
+
 
 export default DayMeals;
